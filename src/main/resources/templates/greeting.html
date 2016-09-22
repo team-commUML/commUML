@@ -1,10 +1,99 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="/css/main.css"/>
+    <title>CommUML v1.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <body>
-    <p th:text="'Hello, ' + ${name} + '!'" />
+<ul>
+    <li>
+        <div class="logo">
+            <img src="/images/ClassIcon.png" onclick="addClassDiagram()" alt="Klasse"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/InterfaceLollipopIcon.png" onclick="addInterfaceLollipop()" alt="Interface (Anbieter)"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/InterfaceReceiverIcon.png" onclick="addInterfaceReceiver()" alt="Interface (Empfänger)"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/AnnotationIcon.png" onclick="addAnnotation()" alt="Annotation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DeleteIcon.png" onclick="deleteMode()" alt="Annotation" style="padding-left: 60px"/>
+        </div>
+    </li>
+    <li>
+        <input class="textfield" type="text" id="Vorname" name="Vorname" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/ShareIcon.png" onclick="share()" alt="Annotation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/UploadButton.png" onclick="upload()" alt="Annotation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DownloadButton.png" onclick="download()" alt="Annotation"/>
+        </div>
+    </li>
+    <li>
+        <label>commUML v1.0</label>
+    </li>
+</ul>
+
+<script>
+    function addClassDiagram() {}
+    function addInheritance() {}
+    function addDirectedAssociation() {}
+    function addUndirectedAssociation() {}
+    function addInterfaceLollipop() {}
+    function addInterfaceReceiver() {}
+    function addAggregation() {}
+    function addComposition() {}
+    function addAnnotation() {}
+    function deleteMode() {}
+    function share() {}
+    function upload() {}
+    function download() {}
+</script>
 </body>
 </html>
