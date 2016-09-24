@@ -4,6 +4,9 @@ ul {
     padding: 0;
     overflow: hidden;
     background-color: #333;
+    position: fixed;
+    top: 0;
+    width: 100%;
 }
 li {
     float: left;
@@ -19,11 +22,13 @@ li img {
 li img:hover {
     background-color: #111;
 }
-ul {
-    position: fixed;
-    top: 0;
-    width: 100%;
+li label {
+    color: gray;
+    font-family: monospace;
+    font-size: xx-large;
+    margin-top: 20px;
 }
+/* Share link field */
 input {
     margin-top: 20px;
     width: 100px;
