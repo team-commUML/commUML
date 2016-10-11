@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <link rel="stylesheet" href="/css/main.css"/>
+    <link rel="stylesheet" href="/css/joint.css"/>
+    <title>CommUML v1.0</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+</head>
+<body>
+<ul>
+    <li>
+        <div class="logo">
+            <img src="/images/ClassIcon.png" onclick="addClassDiagram()" alt="Klasse" title="Klasse"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung" title="Vererbung"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation" title="gerichtete Assoziation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation" title="ungerichtete Assoziation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation" title="Aggregation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition" title="Komposition"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/AnnotationIcon.png" onclick="addAnnotation()" alt="Annotation" title="Annotation"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DeleteIcon.png" onclick="deleteMode()" alt="Annotation" style="padding-left: 60px" title="Löschen"/>
+        </div>
+    </li>
+    <li>
+        <input class="textfield" type="text" id="Vorname" name="Vorname" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/ShareIcon.png" onclick="share()" alt="Teilen" title="Teilen"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/UploadButton.png" onclick="upload()" alt="Hochladen" title="Hochladen"/>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
+            <img src="/images/DownloadButton.png" onclick="download()" alt="Herunterladen" title="Herunterladen"/>
+        </div>
+    </li>
+    <li>
+        <label>commUML v1.0</label>
+    </li>
+</ul>
+<div id="paper" style="margin-top: 60px;"></div>
+<script src="/js/jquery.js"></script>
+<script src="/js/lodash.js"></script>
+<script src="/js/backbone.js"></script>
+<script src="/js/joint.js"></script>
+<script src="/js/umlcd.js"></script>
+</body>
+</html>
