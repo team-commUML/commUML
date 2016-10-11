@@ -2,8 +2,8 @@ var graph = new joint.dia.Graph();
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: 800,
-    height: 600,
+    width: window.innerWidth,
+    height: window.innerHeight,
     gridSize: 1,
     model: graph
 });
@@ -179,15 +179,34 @@ var relations = [
 _.each(relations, function(r) { graph.addCell(r); });
 
 function addClassDiagram() {
-    _.each(relations, function(r) { graph.addCell(r); });
+    graph.addCell(new uml.Class({
+        position: { x:100  , y: 100 },
+        size: { width: 180, height: 50 },
+        name: 'Neue Klasse',
+        attrs: {
+            '.uml-class-name-rect': {
+                fill: '#ff8450',
+                stroke: '#fff',
+                'stroke-width': 0.5
+            },
+            '.uml-class-attrs-rect, .uml-class-methods-rect': {
+                fill: '#fe976a',
+                stroke: '#fff',
+                'stroke-width': 0.5
+            }
+        }
+    }))
 }
-function addInheritance() {}
+function addInheritance() {
+
+}
 function addDirectedAssociation() {}
 function addUndirectedAssociation() {}
-function addInterfaceLollipop() {}
-function addInterfaceReceiver() {}
 function addAggregation() {}
-function addComposition() {}
+function addComposition() {
+    relations = relations.concat(new uml.Composition({ source: { id: classes.woman.id }, target: { id: classes.man.id }}))
+    _.each(relations, function(r) { graph.addCell(r); });
+}
 function addAnnotation() {}
 function deleteMode() {}
 function share() {}
