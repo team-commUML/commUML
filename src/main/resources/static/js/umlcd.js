@@ -197,17 +197,39 @@ function addClassDiagram() {
         }
     }))
 }
-function addInheritance() {
+var listeningForDirectedAssociationClicks = false;
+var clicks = [];
 
+
+paper.on('cell:pointerdown',
+    function(cellView, evt, x, y) {
+        if(listeningForDirectedAssociationClicks) {
+            if (typeof clicks[0] == 'undefined') {
+                clicks[0] = cellView.model.id;
+            } else {
+                clicks[1] = cellView.model.id;
+                
+                relations = relations.concat(new uml.Transition({ source: { id: clicks[0] }, target: { id: clicks[1] }}));
+                _.each(relations, function(r) { graph.addCell(r); });
+
+                clicks = [];
+                listeningForDirectedAssociationClicks = false;
+            }
+        }
+    }
+);
+
+
+
+function addInheritance() {}
+
+function addDirectedAssociation() {
+    listeningForDirectedAssociationClicks = true;
 }
-function addDirectedAssociation() {}
+
 function addUndirectedAssociation() {}
 function addAggregation() {}
-function addComposition() {
-    relations = relations.concat(new uml.Composition({ source: { id: classes.woman.id }, target: { id: classes.man.id }}))
-    _.each(relations, function(r) { graph.addCell(r); });
-}
-function addAnnotation() {}
+function addComposition() {}
 function deleteMode() {}
 function share() {}
 function upload() {}
