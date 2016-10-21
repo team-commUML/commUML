@@ -197,9 +197,30 @@ function addClassDiagram() {
         }
     }))
 }
-function addInheritance() {
+ var listeningForInheritanceClicks = false;
+ var clicksInheritance = [];
 
-}
+ paper.on('cell:pointerdown',
+     function(cellView, evt, x, y) {
+         if(listeningForInheritanceClicks) {
+             if (typeof clicksInheritance[0] == 'undefined') {
+                 clicksInheritance[0] = cellView.model.id;
+             } else {
+                 clicksInheritance[1] = cellView.model.id;
+
+                 relations = relations.concat(new uml.Generalization({ source: { id: clicksInheritance[0] }, target: { id: clicksInheritance[1] }}));
+                 _.each(relations, function(r) { graph.addCell(r); });
+
+                 clicksInheritance = [];
+                 listeningForInheritanceClicks = false;
+             }
+         }
+     }
+ );
+
+ function addInheritance() {
+ listeningForInheritanceClicks = true;
+ }
 function addDirectedAssociation() {}
 function addUndirectedAssociation() {}
 function addAggregation() {}
