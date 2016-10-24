@@ -197,23 +197,23 @@ function addClassDiagram() {
         }
     }))
 }
-var listeningForDirectedAssociationClicks = false;
-var clicks = [];
 
+var relationClass;
+var clicks = [];
 
 paper.on('cell:pointerdown',
     function(cellView, evt, x, y) {
-        if(listeningForDirectedAssociationClicks) {
+        if(typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
             } else {
                 clicks[1] = cellView.model.id;
                 
-                relations = relations.concat(new uml.Transition({ source: { id: clicks[0] }, target: { id: clicks[1] }}));
+                relations = relations.concat(new relationClass({ source: { id: clicks[0] }, target: { id: clicks[1] }}));
                 _.each(relations, function(r) { graph.addCell(r); });
 
                 clicks = [];
-                listeningForDirectedAssociationClicks = false;
+                relationClass = undefined;
             }
         }
     }
@@ -221,15 +221,22 @@ paper.on('cell:pointerdown',
 
 
 
-function addInheritance() {}
-
+function addInheritance() {
+    relationClass = uml.Generalization;
+}
 function addDirectedAssociation() {
-    listeningForDirectedAssociationClicks = true;
+    relationClass = uml.Transition;
+}
+function addUndirectedAssociation() {
+    relationClass = uml.Association;
+}
+function addAggregation() {
+    relationClass = uml.Aggregation;
+}
+function addComposition() {
+    relationClass = uml.Composition;
 }
 
-function addUndirectedAssociation() {}
-function addAggregation() {}
-function addComposition() {}
 function deleteMode() {}
 function share() {}
 function upload() {}
