@@ -77,7 +77,7 @@ var classes = {
             '.uml-class-name-rect': {
                 fill: '#ff8450',
                 stroke: '#fff',
-                'stroke-width': 0.5,
+                'stroke-width': 0.5
             },
             '.uml-class-attrs-rect, .uml-class-methods-rect': {
                 fill: '#fe976a',
