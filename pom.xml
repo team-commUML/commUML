@@ -33,6 +33,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <start-class>commuml.Application</start-class>
     </properties>
 
 
