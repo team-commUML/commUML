@@ -5,6 +5,7 @@
 
     <groupId>de.haw</groupId>
     <artifactId>commuml</artifactId>
+    <packaging>war</packaging>
     <version>0.1.0</version>
 
     <parent>
@@ -23,10 +24,16 @@
             <artifactId>spring-boot-devtools</artifactId>
             <optional>true</optional>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <properties>
         <java.version>1.8</java.version>
+        <start-class>commuml.Application</start-class>
     </properties>
 
 
@@ -35,6 +42,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <finalName>ROOT</finalName>
+                </configuration>
             </plugin>
         </plugins>
     </build>

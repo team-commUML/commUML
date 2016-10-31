@@ -1,4 +1,4 @@
-package hello;
+package commuml;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,12 +6,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class GreetingController {
+public class DrawingController {
 
-    @RequestMapping("/commuml")
-    public String greeting(@RequestParam(value = "id", required = false, defaultValue = "12356290690AFGSJIOD") String name, Model model) {
+    @RequestMapping("/draw")
+    public String drawingBoard(@RequestParam(value = "id", required = false, defaultValue = "12356290690AFGSJIOD") String name, Model model) {
         model.addAttribute("id", name);
-        return "commuml-main";
+        return "commuml-draw";
     }
 
 }
