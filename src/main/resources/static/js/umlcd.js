@@ -244,11 +244,9 @@ function addComposition() {
 var toDelete;
 
 function deleteMode() {
-    console.log("abcdefg");
     paper.on('cell:pointerdown',
         function (cellView, evt, x, y) {
             toDelete = cellView.model.id;
-            console.log(toDelete);
             graph.getCell(toDelete).remove();
             toDelete = null;
             paper.off('cell:pointerdown');
