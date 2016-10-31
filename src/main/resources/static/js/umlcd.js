@@ -8,17 +8,16 @@ var paper = new joint.dia.Paper({
     model: graph
 });
 
-
 var uml = joint.shapes.uml;
 
 var classes = {
 
     mammal: new uml.Interface({
-        position: { x:300  , y: 50 },
-        size: { width: 240, height: 100 },
+        position: {x: 300, y: 50},
+        size: {width: 240, height: 100},
         name: 'Mammal',
         attributes: ['dob: Date'],
-        methods: ['+ setDateOfBirth(dob: Date): Void','+ getAgeAsDays(): Numeric'],
+        methods: ['+ setDateOfBirth(dob: Date): Void', '+ getAgeAsDays(): Numeric'],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#feb662',
@@ -45,11 +44,11 @@ var classes = {
     }),
 
     person: new uml.Abstract({
-        position: { x:300  , y: 300 },
-        size: { width: 260, height: 100 },
+        position: {x: 300, y: 300},
+        size: {width: 260, height: 100},
         name: 'Person',
-        attributes: ['firstName: String','lastName: String'],
-        methods: ['+ setName(first: String, last: String): Void','+ getName(): String'],
+        attributes: ['firstName: String', 'lastName: String'],
+        methods: ['+ setName(first: String, last: String): Void', '+ getName(): String'],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#68ddd5',
@@ -68,8 +67,8 @@ var classes = {
     }),
 
     bloodgroup: new uml.Class({
-        position: { x:20  , y: 190 },
-        size: { width: 220, height: 100 },
+        position: {x: 20, y: 190},
+        size: {width: 220, height: 100},
         name: 'BloodGroup',
         attributes: ['bloodGroup: String'],
         methods: ['+ isCompatible(bG: String): Boolean'],
@@ -98,10 +97,10 @@ var classes = {
     }),
 
     address: new uml.Class({
-        position: { x:630  , y: 190 },
-        size: { width: 160, height: 100 },
+        position: {x: 630, y: 190},
+        size: {width: 160, height: 100},
         name: 'Address',
-        attributes: ['houseNumber: Integer','streetName: String','town: String','postcode: String'],
+        attributes: ['houseNumber: Integer', 'streetName: String', 'town: String', 'postcode: String'],
         methods: [],
         attrs: {
             '.uml-class-name-rect': {
@@ -123,8 +122,8 @@ var classes = {
     }),
 
     man: new uml.Class({
-        position: { x:200  , y: 500 },
-        size: { width: 180, height: 50 },
+        position: {x: 200, y: 500},
+        size: {width: 180, height: 50},
         name: 'Man',
         attrs: {
             '.uml-class-name-rect': {
@@ -141,10 +140,10 @@ var classes = {
     }),
 
     woman: new uml.Class({
-        position: { x:450  , y: 500 },
-        size: { width: 180, height: 50 },
+        position: {x: 450, y: 500},
+        size: {width: 180, height: 50},
         name: 'Woman',
-        methods: ['+ giveABrith(): Person []'],
+        methods: ['+ giveBirth(): Person []'],
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#ff8450',
@@ -166,22 +165,26 @@ var classes = {
 
 };
 
-_.each(classes, function(c) { graph.addCell(c); });
+_.each(classes, function (c) {
+    graph.addCell(c);
+});
 
 var relations = [
-    new uml.Generalization({ source: { id: classes.man.id }, target: { id: classes.person.id }}),
-    new uml.Generalization({ source: { id: classes.woman.id }, target: { id: classes.person.id }}),
-    new uml.Implementation({ source: { id: classes.person.id }, target: { id: classes.mammal.id }}),
-    new uml.Aggregation({ source: { id: classes.person.id }, target: { id: classes.address.id }}),
-    new uml.Composition({ source: { id: classes.person.id }, target: { id: classes.bloodgroup.id }})
+    new uml.Generalization({source: {id: classes.man.id}, target: {id: classes.person.id}}),
+    new uml.Generalization({source: {id: classes.woman.id}, target: {id: classes.person.id}}),
+    new uml.Implementation({source: {id: classes.person.id}, target: {id: classes.mammal.id}}),
+    new uml.Aggregation({source: {id: classes.person.id}, target: {id: classes.address.id}}),
+    new uml.Composition({source: {id: classes.person.id}, target: {id: classes.bloodgroup.id}})
 ];
 
-_.each(relations, function(r) { graph.addCell(r); });
+_.each(relations, function (r) {
+    graph.addCell(r);
+});
 
 function addClassDiagram() {
     graph.addCell(new uml.Class({
-        position: { x:100  , y: 100 },
-        size: { width: 180, height: 50 },
+        position: {x: 100, y: 100},
+        size: {width: 180, height: 50},
         name: 'Neue Klasse',
         attrs: {
             '.uml-class-name-rect': {
@@ -202,15 +205,17 @@ var relationClass;
 var clicks = [];
 
 paper.on('cell:pointerdown',
-    function(cellView, evt, x, y) {
-        if(typeof relationClass != 'undefined') {
+    function (cellView, evt, x, y) {
+        if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
             } else {
                 clicks[1] = cellView.model.id;
-                
-                relations = relations.concat(new relationClass({ source: { id: clicks[0] }, target: { id: clicks[1] }}));
-                _.each(relations, function(r) { graph.addCell(r); });
+
+                relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
+                _.each(relations, function (r) {
+                    graph.addCell(r);
+                });
 
                 clicks = [];
                 relationClass = undefined;
@@ -218,7 +223,6 @@ paper.on('cell:pointerdown',
         }
     }
 );
-
 
 
 function addInheritance() {
@@ -237,7 +241,21 @@ function addComposition() {
     relationClass = uml.Composition;
 }
 
-function deleteMode() {}
-function share() {}
-function upload() {}
-function download() {}
+var toDelete;
+
+function deleteMode() {
+    paper.on('cell:pointerdown',
+        function (cellView, evt, x, y) {
+            toDelete = cellView.model.id;
+            graph.getCell(toDelete).remove();
+            toDelete = null;
+            paper.off('cell:pointerdown');
+    })
+}
+
+function share() {
+}
+function upload() {
+}
+function download() {
+}
