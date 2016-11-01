@@ -209,6 +209,8 @@ paper.on('cell:pointerdown',
 
         if(isInDeleteMode) {
             cellView.model.remove();
+            isInDeleteMode = false;
+            setDeleteButtonColor();
         } else if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
@@ -244,6 +246,16 @@ var isInDeleteMode = false;
 
 function deleteMode() {
    isInDeleteMode = !isInDeleteMode;
+    setDeleteButtonColor();
+}
+
+function setDeleteButtonColor() {
+    var property = document.getElementById("delete");
+    if (isInDeleteMode) {
+        property.style.backgroundColor = "#533";
+    } else {
+        property.style.backgroundColor = "#333";
+    }
 }
 
 function share() {
