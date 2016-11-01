@@ -206,10 +206,16 @@ var clicks = [];
 
 paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
+
+        if(isInDeleteMode) {
+            graph.getCell(cellView.model.id).remove();
+        }
+
+
         if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
-            } else {
+            } else if(cellView.model.id != clicks[0]) {
                 clicks[1] = cellView.model.id;
 
                 relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
@@ -221,6 +227,7 @@ paper.on('cell:pointerdown',
                 relationClass = undefined;
             }
         }
+
     }
 );
 
@@ -241,16 +248,10 @@ function addComposition() {
     relationClass = uml.Composition;
 }
 
-var toDelete;
+var isInDeleteMode = false;
 
 function deleteMode() {
-    paper.on('cell:pointerdown',
-        function (cellView, evt, x, y) {
-            toDelete = cellView.model.id;
-            graph.getCell(toDelete).remove();
-            toDelete = null;
-            paper.off('cell:pointerdown');
-    })
+   isInDeleteMode = !isInDeleteMode;
 }
 
 function share() {
