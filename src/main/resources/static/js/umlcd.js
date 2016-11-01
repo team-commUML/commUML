@@ -208,21 +208,13 @@ paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
 
         if(isInDeleteMode) {
-            graph.getCell(cellView.model.id).remove();
-        }
-
-
-        if (typeof relationClass != 'undefined') {
+            cellView.model.remove();
+        } else if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
             } else if(cellView.model.id != clicks[0]) {
                 clicks[1] = cellView.model.id;
-
-                relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
-                _.each(relations, function (r) {
-                    graph.addCell(r);
-                });
-
+                graph.addCell(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
                 clicks = [];
                 relationClass = undefined;
             }
