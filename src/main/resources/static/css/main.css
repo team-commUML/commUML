@@ -8,9 +8,11 @@ ul {
     top: 0;
     width: 100%;
 }
+
 li {
     float: left;
 }
+
 li img {
     display: block;
     color: white;
@@ -18,19 +20,31 @@ li img {
     padding: 14px 14px;
     text-decoration: none;
 }
+
 /* Change the link color to #111 (black) on hover */
 li img:hover {
     background-color: #111;
 }
+
 li label {
     color: gray;
     font-family: monospace;
     font-size: xx-large;
     margin-top: 20px;
 }
+
 /* Share link field */
 input {
     margin-top: 20px;
     width: 100px;
 }
-#logo { height: 10px; width: 10px; overflow: hidden; }
+
+.link-tools .tool-remove {
+    display: none
+}
+
+#logo {
+    height: 10px;
+    width: 10px;
+    overflow: hidden;
+}

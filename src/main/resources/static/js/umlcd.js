@@ -206,21 +206,22 @@ var clicks = [];
 
 paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
-        if (typeof relationClass != 'undefined') {
+
+        if(isInDeleteMode) {
+            cellView.model.remove();
+            isInDeleteMode = false;
+            setDeleteButtonColor();
+        } else if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
-            } else {
+            } else if(cellView.model.id != clicks[0]) {
                 clicks[1] = cellView.model.id;
-
-                relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
-                _.each(relations, function (r) {
-                    graph.addCell(r);
-                });
-
+                graph.addCell(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
                 clicks = [];
                 relationClass = undefined;
             }
         }
+
     }
 );
 
@@ -241,16 +242,20 @@ function addComposition() {
     relationClass = uml.Composition;
 }
 
-var toDelete;
+var isInDeleteMode = false;
 
 function deleteMode() {
-    paper.on('cell:pointerdown',
-        function (cellView, evt, x, y) {
-            toDelete = cellView.model.id;
-            graph.getCell(toDelete).remove();
-            toDelete = null;
-            paper.off('cell:pointerdown');
-    })
+   isInDeleteMode = !isInDeleteMode;
+    setDeleteButtonColor();
+}
+
+function setDeleteButtonColor() {
+    var property = document.getElementById("delete");
+    if (isInDeleteMode) {
+        property.style.backgroundColor = "#533";
+    } else {
+        property.style.backgroundColor = "#333";
+    }
 }
 
 function share() {
