@@ -178,30 +178,33 @@ var relations = [
 ];
 
 _.each(relations, function (r) {
+    r.label(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+    r.label(1,{position: .1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+    r.label(2,{position: .9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
     graph.addCell(r);
 });
 
 
 //Creation of Property-Panel
 //Custom Element:
-(function() {
-joint.shapes.html = {};
+(function () {
+    joint.shapes.html = {};
     joint.shapes.html.Element = joint.shapes.basic.Rect.extend({
         defaults: joint.util.deepSupplement({
             type: 'html.Element',
             attrs: {
-                rect: { stroke: 'none', 'fill-opacity': 0 }
+                rect: {stroke: 'none', 'fill-opacity': 0}
             }
         }, joint.shapes.basic.Rect.prototype.defaults)
     });
 
 //Custom View
-joint.shapes.html.ElementView = joint.dia.ElementView.extend({
+    joint.shapes.html.ElementView = joint.dia.ElementView.extend({
 
         template: [
             '<div class="html-element">',
             //'<button class="delete">x</button>',
-            '<label></label>',
+            '<label id="Klasse"></label>',
 
             // '<span></span>', '<br/>',
             //'<select><option>--</option><option>one</option><option>two</option></select>',
@@ -209,41 +212,66 @@ joint.shapes.html.ElementView = joint.dia.ElementView.extend({
             '<textarea id="Klassenname"></textarea>',
             '<textarea id="Attribute"></textarea>',
             '<textarea id="Methoden"></textarea>',
-            '<button class="aendern">Aendern</button>',
+            '<button class="klasseaendern">Aendern</button>','<br/>',
+            '<label id="Assoziation"></label>',
+            '<textarea id="Assoziationsname"></textarea>',
+            '<textarea id="KardinalitaetQuelle"></textarea>',
+            '<textarea id="KardinalitaetZiel"></textarea>',
+            '<button class="assoziationaendern">Aendern</button>',
+
             '</div>'
         ].join(''),
 
-        initialize: function() {
+        initialize: function () {
             _.bindAll(this, 'updateBox');
             joint.dia.ElementView.prototype.initialize.apply(this, arguments);
 
             this.$box = $(_.template(this.template)());
             // Prevent paper from handling pointerdown.
-            this.$box.find('textarea,select').on('mousedown click', function(evt) {
+            this.$box.find('textarea,select').on('mousedown click', function (evt) {
                 evt.stopPropagation();
             });
             // This is an example of reacting on the input change and storing the input data in the cell model.
-            this.$box.find('#Klassenname').on('change', _.bind(function(evt) {
+            this.$box.find('#Klassenname').on('change', _.bind(function (evt) {
                 this.model.set('klassenName', $(evt.target).val());
 
 
             }, this));
-            this.$box.find('#Attribute').on('change', _.bind(function(evt) {
-                            this.model.set('attribute', $(evt.target).val());
+            this.$box.find('#Attribute').on('change', _.bind(function (evt) {
+                this.model.set('attribute', $(evt.target).val());
 
-                        }, this));
-            this.$box.find('#Methoden').on('change', _.bind(function(evt) {
-                             this.model.set('methoden', $(evt.target).val());
-
-                         }, this));
-
-
-
-            this.$box.find('.aendern').on('click', _.bind(function(){
-                    graph.getCell(this.model.get('bezugsklasse')).set('name',this.model.get('klassenName'));
-                    graph.getCell(this.model.get('bezugsklasse')).set('attributes',this.model.get('attribute'));
-                    graph.getCell(this.model.get('bezugsklasse')).set('methods',this.model.get('methoden'));
             }, this));
+            this.$box.find('#Methoden').on('change', _.bind(function (evt) {
+                this.model.set('methoden', $(evt.target).val());
+
+            }, this));
+
+
+            this.$box.find('#Assoziationsname').on('change', _.bind(function (evt) {
+                this.model.set('assoziationName', $(evt.target).val());
+
+            }, this));
+            this.$box.find('#KardinalitaetQuelle').on('change', _.bind(function (evt) {
+                this.model.set('kardinalitaetQuelle', $(evt.target).val());
+
+            }, this));
+            this.$box.find('#KardinalitaetZiel').on('change', _.bind(function (evt) {
+                this.model.set('kardinalitaetZiel', $(evt.target).val());
+
+            }, this));
+
+
+            this.$box.find('.klasseaendern').on('click', _.bind(function () {
+                graph.getCell(this.model.get('bezugsklasse')).set('name', this.model.get('klassenName'));
+                graph.getCell(this.model.get('bezugsklasse')).set('attributes', this.model.get('attribute'));
+                graph.getCell(this.model.get('bezugsklasse')).set('methods', this.model.get('methoden'));
+            }, this));
+
+           this.$box.find('.assoziationaendern').on('click', _.bind(function(){
+                               graph.getCell(this.model.get('bezugsAssoziation')).label(0,{attrs: {text:{text: this.model.get('assoziationName')}}});  //(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('assoziationName'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                               graph.getCell(this.model.get('bezugsAssoziation')).label(1,{attrs: {text:{text: this.model.get('kardinalitaetQuelle')}}}); //(1,{position: 0.1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetQuelle'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                               graph.getCell(this.model.get('bezugsAssoziation')).label(2,{attrs: {text:{text: this.model.get('kardinalitaetZiel')}}});  //(2,{position: 0.9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetZiel'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                       }, this));
 
             // Update the box position whenever the underlying model changes.
             this.model.on('change', this.updateBox, this);
@@ -252,23 +280,28 @@ joint.shapes.html.ElementView = joint.dia.ElementView.extend({
 
             this.updateBox();
         },
-        render: function() {
+        render: function () {
             joint.dia.ElementView.prototype.render.apply(this, arguments);
             this.paper.$el.prepend(this.$box);
             this.updateBox();
             return this;
         },
-        updateBox: function() {
+        updateBox: function () {
             // Set the position and dimension of the box so that it covers the JointJS element.
             var bbox = this.model.getBBox();
             // Example of updating the HTML with a data stored in the cell model.
-            this.$box.find('label').text(this.model.get('label'));
-            this.$box.find('span').text(this.model.get('select'));
+            this.$box.find('#Klasse').text(this.model.get('labelKlasse'));
+
 
             this.$box.find('#Klassenname').val(this.model.get('klassenName'));
             this.$box.find('#Attribute').val(this.model.get('attribute'));
             this.$box.find('#Methoden').val(this.model.get('methoden'));
 
+            this.$box.find('#Assoziation').text(this.model.get('labelAssoziation'));
+
+            this.$box.find('#Assoziationsname').val(this.model.get('assoziationName'));
+            this.$box.find('#KardinalitaetQuelle').val(this.model.get('kardinalitaetQuelle'));
+            this.$box.find('#KardinalitaetZiel').val(this.model.get('kardinalitaetZiel'));
 
 
             this.$box.css({
@@ -279,13 +312,20 @@ joint.shapes.html.ElementView = joint.dia.ElementView.extend({
                 transform: 'rotate(' + (this.model.get('angle') || 0) + 'deg)'
             });
         },
-        getNewClass: function() {
-                        this.model.set('klassenName',graph.getCell(this.model.get('bezugsklasse')).get('name'));
-                        this.model.set('attribute',graph.getCell(this.model.get('bezugsklasse')).get('attributes'));
-                        this.model.set('methoden',graph.getCell(this.model.get('bezugsklasse')).get('methods'));
+        getNewClass: function () {
+            this.model.set('klassenName', graph.getCell(this.model.get('bezugsklasse')).get('name'));
+            this.model.set('attribute', graph.getCell(this.model.get('bezugsklasse')).get('attributes'));
+            this.model.set('methoden', graph.getCell(this.model.get('bezugsklasse')).get('methods'));
         },
 
-        removeBox: function(evt) {
+        getNewAssociation: function () {
+            this.model.set('assoziationName', graph.getCell(this.model.get('bezugsAssoziation')).label(0).attrs.text.text);
+            this.model.set('kardinalitaetQuelle', graph.getCell(this.model.get('bezugsAssoziation')).label(1).attrs.text.text);
+            this.model.set('kardinalitaetZiel', graph.getCell(this.model.get('bezugsAssoziation')).label(2).attrs.text.text);
+
+        },
+
+        removeBox: function (evt) {
             this.$box.remove();
         }
 
@@ -296,19 +336,20 @@ joint.shapes.html.ElementView = joint.dia.ElementView.extend({
 }())
 
 var propertyBox = new joint.shapes.html.Element({
-        position: { x: 80, y: 80 },
-        size: { width: 170, height: 100 },
-        label: 'Property Box',
-        klassenName: 'Klassenname',
-        attribute: 'Attribute',
-        methoden: 'Methoden',
-        bezugsklasse: 'undefined',
-        neuKlassenname: 'neuKlassenname',
-        neuAttribute: 'neuAttribute',
-        neuMethoden: 'neuMethoden'
-        //select: 'one'
-    });
-
+    position: {x: 80, y: 80},
+    size: {width: 170, height: 100},
+    labelKlasse: 'Klasse bearbeiten',
+    klassenName: 'Klassenname',
+    attribute: 'Attribute',
+    methoden: 'Methoden',
+    bezugsklasse: 'undefined',
+    labelAssoziation: 'Assoziation bearbeiten',
+    assoziationName: 'Beschriftung',
+    kardinalitaetQuelle: 'Kardinalitaet',
+    kardinalitaetZiel: 'Kardinalitaet',
+    bezugsAssoziation: 'undefined'
+    //select: 'one'
+});
 
 
 graph.addCells([propertyBox]);
@@ -339,33 +380,38 @@ var clicks = [];
 paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
 
-        if(isInDeleteMode) {
+        if (isInDeleteMode) {
             cellView.model.remove();
             isInDeleteMode = false;
             setDeleteButtonColor();
         } else if (typeof relationClass != 'undefined') {
             if (typeof clicks[0] == 'undefined') {
                 clicks[0] = cellView.model.id;
-            } else if(cellView.model.id != clicks[0]) {
+            } else if (cellView.model.id != clicks[0]) {
                 clicks[1] = cellView.model.id;
-                graph.addCell(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
+                var newLink=new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}});
+                newLink.label(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+                newLink.label(1,{position: .1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+                newLink.label(2,{position: .9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+                graph.addCell();
                 clicks = [];
                 relationClass = undefined;
             }
         }
-        var tempID = propertyBox.get('bezugsklasse');
+        //var tempID = propertyBox.get('bezugsklasse');
 
-
-
-        propertyBox.set('bezugsklasse',cellView.model.id);
-
-
-
-        if (!(tempID===propertyBox.get('bezugsklasse'))) {
-        paper.findViewByModel(propertyBox).getNewClass();
+        if (graph.getCell(cellView.model.id).isLink()) {
+            propertyBox.set('bezugsAssoziation', cellView.model.id);
+            paper.findViewByModel(propertyBox).getNewAssociation();
+        } else {
+            propertyBox.set('bezugsklasse', cellView.model.id);
+            paper.findViewByModel(propertyBox).getNewClass();
         }
 
 
+        //if (!(tempID===propertyBox.get('bezugsklasse'))) {
+
+        // }
 
 
     }
@@ -396,7 +442,7 @@ function addComposition() {
 var isInDeleteMode = false;
 
 function deleteMode() {
-   isInDeleteMode = !isInDeleteMode;
+    isInDeleteMode = !isInDeleteMode;
     setDeleteButtonColor();
 }
 
