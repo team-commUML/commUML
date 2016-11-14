@@ -229,13 +229,10 @@ function checkForRelationClicks(cellView) {
     if (typeof relationClass != 'undefined') {
         if (typeof clicks[0] == 'undefined') {
             clicks[0] = cellView.model.id;
-        } else {
+        } else if(cellView.model.id != clicks[0]) {
             clicks[1] = cellView.model.id;
 
-            relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
-            _.each(relations, function (r) {
-                graph.addCell(r);
-            });
+            graph.addCell(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
 
             clicks = [];
             relationClass = undefined;
