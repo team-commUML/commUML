@@ -253,7 +253,15 @@ paper.on('cell:pointerup',
         database.ref().set(databaseObject);
     }
 );
-
+paper.on('cell:pointerdown',
+    function (cellView, evt, x, y) {
+        if(isInDeleteMode) {
+            cellView.model.remove();
+            isInDeleteMode = false;
+            setDeleteButtonColor();
+        }
+    }
+);
 database.ref().on('value', function(snapshot) {
     var jsonFromFirebase = snapshot.val()[uniqueID];
     if (typeof jsonFromFirebase != 'undefined') {
@@ -276,17 +284,20 @@ function addAggregation() {
 function addComposition() {
     relationClass = uml.Composition;
 }
-
-var toDelete;
+var isInDeleteMode = false;
 
 function deleteMode() {
-    paper.on('cell:pointerdown',
-        function (cellView, evt, x, y) {
-            toDelete = cellView.model.id;
-            graph.getCell(toDelete).remove();
-            toDelete = null;
-            paper.off('cell:pointerdown');
-    })
+    isInDeleteMode = !isInDeleteMode;
+    setDeleteButtonColor();
+}
+
+function setDeleteButtonColor() {
+    var property = document.getElementById("delete");
+    if (isInDeleteMode) {
+        property.style.backgroundColor = "#533";
+    } else {
+        property.style.backgroundColor = "#333";
+    }
 }
 
 function share() {
