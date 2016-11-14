@@ -193,7 +193,7 @@ _.each(relations, function (r) {
         defaults: joint.util.deepSupplement({
             type: 'html.Element',
             attrs: {
-                rect: {stroke: 'none', 'fill-opacity': 0}
+                rect: {stroke: 'none','fill-opacity': 0}
             }
         }, joint.shapes.basic.Rect.prototype.defaults)
     });
@@ -393,7 +393,7 @@ paper.on('cell:pointerdown',
                 newLink.label(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
                 newLink.label(1,{position: .1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
                 newLink.label(2,{position: .9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
-                graph.addCell();
+                graph.addCell(newLink);
                 clicks = [];
                 relationClass = undefined;
             }
