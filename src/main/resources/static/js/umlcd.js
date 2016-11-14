@@ -354,11 +354,15 @@ var propertyBox = new joint.shapes.html.Element({
 
 graph.addCells([propertyBox]);
 
+
+var createOffset = 0;
 function addClassDiagram() {
     graph.addCell(new uml.Class({
-        position: {x: 100, y: 100},
+        position: {x: 100+createOffset, y: 100+createOffset},
         size: {width: 180, height: 50},
-        name: 'Neue Klasse',
+        name: propertyBox.get('klassenName'),
+        attributes: propertyBox.get('attribute'),
+        methods: propertyBox.get('methoden'),
         attrs: {
             '.uml-class-name-rect': {
                 fill: '#ff8450',
@@ -372,6 +376,7 @@ function addClassDiagram() {
             }
         }
     }))
+    createOffset = createOffset+10;
 }
 
 var relationClass;
@@ -390,9 +395,9 @@ paper.on('cell:pointerdown',
             } else if (cellView.model.id != clicks[0]) {
                 clicks[1] = cellView.model.id;
                 var newLink=new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}});
-                newLink.label(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
-                newLink.label(1,{position: .1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
-                newLink.label(2,{position: .9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: '','font-size': 13,'font-family': 'Times New Roman'}}});
+                newLink.label(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: propertyBox.get('assoziationName'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                newLink.label(1,{position: .1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: propertyBox.get('kardinalitaetQuelle'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                newLink.label(2,{position: .9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: propertyBox.get('kardinalitaetZiel'),'font-size': 13,'font-family': 'Times New Roman'}}});
                 graph.addCell(newLink);
                 clicks = [];
                 relationClass = undefined;
