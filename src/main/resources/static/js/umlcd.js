@@ -10,6 +10,27 @@ var paper = new joint.dia.Paper({
 
 var uml = joint.shapes.uml;
 
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB9oU1pamHZdx2QJXx3tGgdo2svnZ4sFuk",
+    authDomain: "commuml-64817.firebaseapp.com",
+    databaseURL: "https://commuml-64817.firebaseio.com",
+    storageBucket: "commuml-64817.appspot.com",
+    messagingSenderId: "320513362473"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+var uniqueID = document.getElementById("uniqeIdStore").value;
+if (uniqueID.match(/[a-z]/i)) { // thymeleaf parameter was not defined, so we get a garbage value that contains letters
+    uniqueID = new Date().getTime();
+    var separator = (window.location.href.indexOf("?")===-1)?"?":"&";
+    window.location.href = window.location.href + separator + "id=" + uniqueID;
+}
+
+document.getElementById("link").value = "localhost:8080/draw?id=" + uniqueID;
+
 var classes = {
 
     mammal: new uml.Interface({
@@ -204,26 +225,41 @@ function addClassDiagram() {
 var relationClass;
 var clicks = [];
 
-paper.on('cell:pointerdown',
-    function (cellView, evt, x, y) {
-        if (typeof relationClass != 'undefined') {
-            if (typeof clicks[0] == 'undefined') {
-                clicks[0] = cellView.model.id;
-            } else {
-                clicks[1] = cellView.model.id;
+function checkForRelationClicks(cellView) {
+    if (typeof relationClass != 'undefined') {
+        if (typeof clicks[0] == 'undefined') {
+            clicks[0] = cellView.model.id;
+        } else {
+            clicks[1] = cellView.model.id;
 
-                relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
-                _.each(relations, function (r) {
-                    graph.addCell(r);
-                });
+            relations = relations.concat(new relationClass({source: {id: clicks[0]}, target: {id: clicks[1]}}));
+            _.each(relations, function (r) {
+                graph.addCell(r);
+            });
 
-                clicks = [];
-                relationClass = undefined;
-            }
+            clicks = [];
+            relationClass = undefined;
         }
+
+    }
+}
+
+paper.on('cell:pointerup',
+    function (cellView, evt, x, y) {
+        checkForRelationClicks(cellView);
+        var json = JSON.stringify(graph);
+        var databaseObject = {};
+        databaseObject[uniqueID] = json;
+        database.ref().set(databaseObject);
     }
 );
 
+database.ref().on('value', function(snapshot) {
+    var jsonFromFirebase = snapshot.val()[uniqueID];
+    if (typeof jsonFromFirebase != 'undefined') {
+        graph.fromJSON(JSON.parse(jsonFromFirebase));
+    }
+});
 
 function addInheritance() {
     relationClass = uml.Generalization;

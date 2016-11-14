@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <link rel="stylesheet" href="/css/main.css"/>
     <link rel="stylesheet" href="/css/joint.css"/>
@@ -44,7 +44,7 @@
         </div>
     </li>
     <li>
-        <input class="textfield" type="text" id="Vorname" name="Vorname" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
+        <input class="textfield" type="text" id="link" name="link" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
     </li>
     <li>
         <div class="logo">
@@ -65,11 +65,14 @@
         <label>commUML v1.0</label>
     </li>
 </ul>
+<input type="hidden" id="uniqeIdStore" value="${id}" th:value="${id}"/>
 <div id="paper" style="margin-top: 60px;"></div>
 <script src="/js/jquery.js"></script>
 <script src="/js/lodash.js"></script>
 <script src="/js/backbone.js"></script>
 <script src="/js/joint.js"></script>
+<script src="https://www.gstatic.com/firebasejs/3.6.0/firebase.js"></script>
 <script src="/js/umlcd.js"></script>
+
 </body>
 </html>
