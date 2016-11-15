@@ -10,6 +10,31 @@ var paper = new joint.dia.Paper({
 
 var uml = joint.shapes.uml;
 
+
+// Initialize Firebase
+var config = {
+    apiKey: "AIzaSyB9oU1pamHZdx2QJXx3tGgdo2svnZ4sFuk",
+    authDomain: "commuml-64817.firebaseapp.com",
+    databaseURL: "https://commuml-64817.firebaseio.com",
+    storageBucket: "commuml-64817.appspot.com",
+    messagingSenderId: "320513362473"
+};
+firebase.initializeApp(config);
+
+var database = firebase.database();
+
+var uniqueID = document.getElementById("uniqeIdStore").value;
+if (uniqueID.match(/[a-z]/i)) { // thymeleaf parameter was not defined, so we get a garbage value that contains letters
+    uniqueID = new Date().getTime();
+    var separator = (window.location.href.indexOf("?")===-1)?"?":"&";
+    window.location.href = window.location.href + separator + "id=" + uniqueID;
+}
+
+document.getElementById("link").value = "localhost:8080/draw?id=" + uniqueID;
+
+
+
+
 var classes = {
 
     mammal: new uml.Interface({
@@ -335,6 +360,7 @@ _.each(relations, function (r) {
 
 }())
 
+
 var propertyBox = new joint.shapes.html.Element({
     position: {x: 80, y: 80},
     size: {width: 170, height: 100},
@@ -350,9 +376,6 @@ var propertyBox = new joint.shapes.html.Element({
     bezugsAssoziation: 'undefined'
     //select: 'one'
 });
-
-
-graph.addCells([propertyBox]);
 
 
 var createOffset = 0;
@@ -421,6 +444,26 @@ paper.on('cell:pointerdown',
 
     }
 );
+
+
+paper.on('cell:pointerup',
+    function (cellView, evt, x, y) {
+        propertyBox.remove();
+        var json = JSON.stringify(graph);
+        var databaseObject = {};
+        databaseObject[uniqueID] = json;
+        database.ref().set(databaseObject);
+        graph.addCell(propertyBox);
+    }
+);
+
+database.ref().on('value', function(snapshot) {
+    var jsonFromFirebase = snapshot.val()[uniqueID];
+    if (typeof jsonFromFirebase != 'undefined') {
+        graph.fromJSON(JSON.parse(jsonFromFirebase));
+
+    }
+});
 
 
 function addInheritance() {
