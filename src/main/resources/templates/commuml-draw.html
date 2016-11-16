@@ -5,6 +5,11 @@
     <link rel="stylesheet" href="/css/joint.css"/>
     <title>CommUML v1.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <style>
+        #paper { float: left; }
+        #uipaper { float: right; }
+
+    </style>
 </head>
 <body>
 <ul>
@@ -66,7 +71,8 @@
     </li>
 </ul>
 <input type="hidden" id="uniqeIdStore" value="${id}" th:value="${id}"/>
-<div id="paper" style="margin-top: 60px;"></div>
+<div id="paper" style="margin-top: 60px;"></div><div id="uipaper" style="margin-top: 60px;"></div>
+
 <script src="/js/jquery.js"></script>
 <script src="/js/lodash.js"></script>
 <script src="/js/backbone.js"></script>
