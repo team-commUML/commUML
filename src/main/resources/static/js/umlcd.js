@@ -60,8 +60,9 @@ var uipaper = new joint.dia.Paper({
             '<textarea id="KardinalitaetZiel"></textarea>',
             '<button class="assoziationaendern">Aendern</button>','<br/>',
             '<p><p/>',
-            '<label id="Zoom">Zoom</label>','<br/>',
+            '<label id="Zoom">Zoom:</label>','<span id="Range">100%</span>','<br/>',
             '<input id="Zoom" type="range" min="10" max="200" value="100" step="10" />',
+
 
             '</div>'
         ].join(''),
@@ -113,8 +114,10 @@ var uipaper = new joint.dia.Paper({
 
             },this));
             this.$box.find('#Zoom').on('change',_.bind(function (evt) {
-                var val = $(evt.target).val()/100;
-                paper.scale(val, val);
+
+                var val = $(evt.target).val();
+                this.$box.find('span').text(val+'%');
+                paper.scale(val/100, val/100);
 
             } , this));
 
