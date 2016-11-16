@@ -114,12 +114,14 @@ var uipaper = new joint.dia.Paper({
                 graph.getCell(this.model.get('bezugsklasse')).set('name', this.model.get('klassenName'));
                 graph.getCell(this.model.get('bezugsklasse')).set('attributes', this.model.get('attribute'));
                 graph.getCell(this.model.get('bezugsklasse')).set('methods', this.model.get('methoden'));
+                serialize();
             }, this));
 
            this.$box.find('.assoziationaendern').on('click', _.bind(function(){
                                graph.getCell(this.model.get('bezugsAssoziation')).label(0,{attrs: {text:{text: this.model.get('assoziationName')}}});  //(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('assoziationName'),'font-size': 13,'font-family': 'Times New Roman'}}});
                                graph.getCell(this.model.get('bezugsAssoziation')).label(1,{attrs: {text:{text: this.model.get('kardinalitaetQuelle')}}}); //(1,{position: 0.1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetQuelle'),'font-size': 13,'font-family': 'Times New Roman'}}});
                                graph.getCell(this.model.get('bezugsAssoziation')).label(2,{attrs: {text:{text: this.model.get('kardinalitaetZiel')}}});  //(2,{position: 0.9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetZiel'),'font-size': 13,'font-family': 'Times New Roman'}}});
+                               serialize();
                        }, this));
 
             // Update the box position whenever the underlying model changes.
@@ -493,10 +495,7 @@ paper.on('cell:pointerdown',
 paper.on('cell:pointerup',
     function (cellView, evt, x, y) {
 
-        var json = JSON.stringify(graph);
-        var databaseObject = {};
-        databaseObject[uniqueID] = json;
-        database.ref().set(databaseObject);
+        serialize();
 
     }
 );
@@ -554,13 +553,9 @@ function upload() {
 function download() {
 }
 
-function aryToStr(array) {
-    var text='';
-    for (var i = 0; i < array.length; i++) {
-
-           text.concat(array[i]);
-           if (i<array.length-1) {
-           text.concat('\n');}
-    }
-    return text;
-}
+function serialize() {
+        var json = JSON.stringify(graph);
+        var databaseObject = {};
+        databaseObject[uniqueID] = json;
+        database.ref().set(databaseObject);
+        }
