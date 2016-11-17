@@ -1,11 +1,12 @@
 var uigraph = new joint.dia.Graph();
 
 var uipaperWidth = 200;
+var uipaperHeight = 600;
 
 var uipaper = new joint.dia.Paper({
     el: $('#uipaper'),
     width: uipaperWidth,
-    height: 800,
+    height: uipaperHeight,
     gridSize: 1,
     model: uigraph
 });
@@ -118,6 +119,7 @@ var uipaper = new joint.dia.Paper({
                 var val = $(evt.target).val();
                 this.$box.find('span').text(val+'%');
                 paper.scale(val/100, val/100);
+                paper.fitToContent({allowNewOrigin:'any'});
 
             } , this));
 
@@ -230,11 +232,17 @@ var graph = new joint.dia.Graph();
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: window.innerWidth-uipaperWidth-200,
+    width: window.innerWidth,
     height: window.innerHeight,
     gridSize: 1,
     model: graph
 });
+
+graph.on('change:position', function(cell, newPosition, opt) {
+paper.fitToContent({allowNewOrigin:'any'});
+
+});
+paper.fitToContent();
 
 var uml = joint.shapes.uml;
 
@@ -438,7 +446,7 @@ _.each(relations, function (r) {
 });
 
 
-
+paper.fitToContent();
 
 
 var createOffset = 0;
@@ -514,7 +522,7 @@ paper.on('cell:pointerup',
 
         serialize();
 
-    }
+}
 );
 
 database.ref().on('value', function(snapshot) {
@@ -523,6 +531,7 @@ database.ref().on('value', function(snapshot) {
         graph.fromJSON(JSON.parse(jsonFromFirebase));
 
     }
+    paper.fitToContent({allowNewOrigin:'any'})
 });
 
 
@@ -567,8 +576,9 @@ function share() {
 }
 function upload() {
 }
-function download() {
-}
+
+
+
 
 function serialize() {
         var json = JSON.stringify(graph);
@@ -576,3 +586,4 @@ function serialize() {
         databaseObject[uniqueID] = json;
         database.ref().set(databaseObject);
         }
+
