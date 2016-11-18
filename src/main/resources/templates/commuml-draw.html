@@ -68,12 +68,16 @@
     </li>
     <li>
         <div class="logo">
-            <img src="/images/UploadButton.png" onclick="upload()" alt="Hochladen" title="Hochladen"/>
+
+            <img id="uploadIMG" src="/images/UploadButton.png" alt="Hochladen" title="Hochladen" style="cursor:pointer"/>
+            <input id="the-file-input" name="the-file-input" type="file" style="display:none"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DownloadButton.png" onclick="download()" alt="Herunterladen" title="Herunterladen"/>
+            <a id="downloadButton">
+                <img src="/images/DownloadButton.png" alt="Herunterladen" title="Herunterladen"/>
+            </a>
         </div>
     </li>
     <li>

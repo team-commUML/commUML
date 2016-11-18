@@ -448,6 +448,7 @@ _.each(relations, function (r) {
 
 paper.fitToContent({allowNewOrigin:'negative'});
 
+updateDownloadLink('downloadButton',JSON.stringify(graph) , 'UML.json');
 
 var createOffset = 0;
 function addClassDiagram() {
@@ -508,9 +509,7 @@ paper.on('cell:pointerdown',
         }
 
 
-        //if (!(tempID===propertyBox.get('bezugsklasse'))) {
 
-        // }
 
 
     }
@@ -528,10 +527,12 @@ paper.on('cell:pointerup',
 database.ref().on('value', function(snapshot) {
     var jsonFromFirebase = snapshot.val()[uniqueID];
     if (typeof jsonFromFirebase != 'undefined') {
-        graph.fromJSON(JSON.parse(jsonFromFirebase));
-
+        deserialize(jsonFromFirebase);
     }
-    paper.fitToContent({allowNewOrigin:'negative'})
+
+
+
+
 });
 
 
@@ -574,7 +575,51 @@ function setDeleteButtonColor() {
 
 function share() {
 }
-function upload() {
+
+$("#uploadIMG" ).click(function () {
+    $("#the-file-input").trigger('click');
+});
+
+$("#the-file-input").change(function() {
+
+
+    upload(this.files[0]);
+});
+
+
+function upload(uploadedJson) {
+    if (window.File && window.FileReader && window.FileList) {
+    var reader = new FileReader();
+
+    reader.onload = function(e) {
+      deserialize(reader.result);
+    }
+
+
+    reader.readAsText(uploadedJson);
+    } else {
+        alert('The File APIs are not fully supported in this browser.');
+    }
+}
+
+
+function updateDownloadLink(anchorSelector, str, fileName){
+
+            var data = "text/json;charset=utf-8," + encodeURIComponent(str);
+                var dlAnchor = document.getElementById(anchorSelector);
+                dlAnchor.setAttribute("href", 'data:' + data);
+                dlAnchor.setAttribute("download", fileName);
+
+
+}
+
+
+
+function deserialize(newJson) {
+
+        graph.fromJSON(JSON.parse(newJson));
+        updateDownloadLink('downloadButton', newJson, 'UML.json');
+        paper.fitToContent({allowNewOrigin:'negative'});
 }
 
 
@@ -585,5 +630,5 @@ function serialize() {
         var databaseObject = {};
         databaseObject[uniqueID] = json;
         database.ref().set(databaseObject);
-        }
+}
 
