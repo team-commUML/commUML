@@ -119,7 +119,7 @@ var uipaper = new joint.dia.Paper({
                 var val = $(evt.target).val();
                 this.$box.find('span').text(val+'%');
                 paper.scale(val/100, val/100);
-                paper.fitToContent({allowNewOrigin:'any'});
+                paper.fitToContent({allowNewOrigin:'negative'});
 
             } , this));
 
@@ -239,10 +239,10 @@ var paper = new joint.dia.Paper({
 });
 
 graph.on('change:position', function(cell, newPosition, opt) {
-paper.fitToContent({allowNewOrigin:'any'});
+paper.fitToContent({allowNewOrigin:'negative'});
 
 });
-paper.fitToContent();
+
 
 var uml = joint.shapes.uml;
 
@@ -446,7 +446,7 @@ _.each(relations, function (r) {
 });
 
 
-paper.fitToContent();
+paper.fitToContent({allowNewOrigin:'negative'});
 
 
 var createOffset = 0;
@@ -531,7 +531,7 @@ database.ref().on('value', function(snapshot) {
         graph.fromJSON(JSON.parse(jsonFromFirebase));
 
     }
-    paper.fitToContent({allowNewOrigin:'any'})
+    paper.fitToContent({allowNewOrigin:'negative'})
 });
 
 
