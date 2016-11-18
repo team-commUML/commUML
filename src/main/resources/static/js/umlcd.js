@@ -593,10 +593,12 @@ function upload(uploadedJson) {
 
     reader.onload = function(e) {
       deserialize(reader.result);
+      serialize();
     }
 
 
     reader.readAsText(uploadedJson);
+
     } else {
         alert('The File APIs are not fully supported in this browser.');
     }
