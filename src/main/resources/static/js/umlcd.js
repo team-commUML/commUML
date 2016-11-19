@@ -574,6 +574,17 @@ function setDeleteButtonColor() {
 }
 
 function share() {
+    var shareLink = document.getElementById("link");
+    shareLink.select();
+
+    try {
+        var successful = document.execCommand('copy');
+        var msg = successful ? 'successful' : 'unsuccessful';
+        console.log('Copying text command was ' + msg);
+      } catch (err) {
+        console.log('Oops, unable to copy');
+      }
+
 }
 
 $("#uploadIMG" ).click(function () {
