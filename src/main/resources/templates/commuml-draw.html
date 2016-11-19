@@ -17,6 +17,12 @@
         #uipaper { float: right;
          margin-top: 60px;}
 
+    @media print
+    {
+    body * { visibility: hidden; }
+    #paper * { visibility: visible; }
+    #paper { position: absolute; top: 40px; left: 30px; }
+    }
 
 
     </style>

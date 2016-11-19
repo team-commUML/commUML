@@ -1,7 +1,7 @@
 var uigraph = new joint.dia.Graph();
 
 var uipaperWidth = 200;
-var uipaperHeight = 600;
+var uipaperHeight = 400;
 
 var uipaper = new joint.dia.Paper({
     el: $('#uipaper'),
