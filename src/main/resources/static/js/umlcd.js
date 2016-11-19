@@ -266,7 +266,7 @@ if (uniqueID.match(/[a-z]/i)) { // thymeleaf parameter was not defined, so we ge
     window.location.href = window.location.href + separator + "id=" + uniqueID;
 }
 
-document.getElementById("link").value = "localhost:8080/draw?id=" + uniqueID;
+document.getElementById("link").value = window.location.href;
 
 
 
