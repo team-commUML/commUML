@@ -1,5 +1,5 @@
 var commuml_vers = 'ver_1.0';
-
+var alternatives_Highlighting = true;
 
 // Initialize Firebase
 var config = {
@@ -76,10 +76,10 @@ var uipaper = new joint.dia.Paper({
 
             '<span></span>', '<br/>',
 
-            '<button class="button blau not_selected" id= "00BFFF" value="#32CBFF"></button>',
-            '<button class="button gelb not_selected" id= "F4D03F" value="#f5d452"></button>',
-            '<button class="button gruen not_selected" id = "A5DF00" value="#B5E135"></button>',
-            '<button class="button orange not_selected" id = "ff8450" value="#fe976a"></button>',
+            '<button class="button farbe blau not_selected" id= "00BFFF" value="#32CBFF"></button>',
+            '<button class="button farbe gelb not_selected" id= "F4D03F" value="#f5d452"></button>',
+            '<button class="button farbe gruen not_selected" id = "A5DF00" value="#B5E135"></button>',
+            '<button class="button farbe orange not_selected" id = "ff8450" value="#fe976a"></button>',
 
 
 //            '<select onchange="this.className=this.options[this.selectedIndex].className" class="default" >',
@@ -95,13 +95,13 @@ var uipaper = new joint.dia.Paper({
             '<textarea id="Klassenname" placeholder="Klassenname"></textarea>',
             '<textarea id="Attribute" placeholder="Attribute"></textarea>',
             '<textarea id="Methoden" placeholder="Methoden"></textarea>',
-            '<button class="klasseaendern">Aendern</button>','<br/>',
+            '<button class="button changer klasseaendern">Anpassen</button>','<br/>',
             '<p><p/>',
             '<label id="Assoziation"></label>',
             '<textarea id="Assoziationsname" placeholder="Assoziationsname"></textarea>',
             '<textarea id="KardinalitaetQuelle" placeholder="KardinalitaetQuelle"></textarea>',
             '<textarea id="KardinalitaetZiel" placeholder="KardinalitaetZiel"></textarea>',
-            '<button class="assoziationaendern">Aendern</button>','<br/>',
+            '<button class="button changer assoziationaendern">Anpassen</button>','<br/>',
             '<p><p/>',
             '<label id="Zoom">Zoom:</label>','<span id="Range">100%</span>','<br/>',
             '<input id="Zoom" type="range" min="10" max="200" value="100" step="10" />',
@@ -125,7 +125,7 @@ var uipaper = new joint.dia.Paper({
 //                        }, this));
 //            this.$box.find('select').val(this.model.get('select'));
 
-            this.$box.find('.button').on('click', _.bind(function (evt) {
+            this.$box.find('.farbe').on('click', _.bind(function (evt) {
 //                           if ( $(evt.target).attr('id') != this.model.get('farbe')) {
                            this.model.set('farbePrimaer', "#" + $(evt.target).attr('id'));
                            this.model.set('farbeSekundaer', $(evt.target).val());
@@ -246,7 +246,7 @@ var uipaper = new joint.dia.Paper({
         },
 
         changeButtonColor: function (buttonID) {
-                this.$box.find('.button').addClass("not_selected");
+                this.$box.find('.farbe').addClass("not_selected");
                 var elem = this.$box.find(buttonID);
                 elem.removeClass("not_selected");           //css( "background-color", "white" );                  //.style.backgroundColor("white");
 //                $(buttonID).style.background-color= $(buttonID).val();
@@ -334,6 +334,7 @@ var paper = new joint.dia.Paper({
     width: window.innerWidth,
     height: window.innerHeight,
     gridSize: 1,
+//    drawGrid: true,
     model: graph,
 
         interactive: function(cellView) {
@@ -355,6 +356,7 @@ var paper = new joint.dia.Paper({
 
 graph.on('change:position', function(cell, newPosition, opt) {
 paper.fitToContent({allowNewOrigin:'negative'});
+
 
 });
 
@@ -576,7 +578,7 @@ function addClassDiagram() {
             }
         }
     }))
-    createOffset = createOffset+10;
+    createOffset = (createOffset+10)%100;
     serialize();
 
 }
@@ -587,18 +589,9 @@ var currentSelected=undefined;
 
 paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
-    if (existingCell(currentSelected)) {
-        paper.findViewByModel(graph.getCell(currentSelected)).unhighlight(null,{
-                                                                         highlighter: {
-                                                                             name: 'opacity'
-                                                                         }
-                                                                     } );}
+    unhighlight();
         currentSelected = cellView.model.id;
-        paper.findViewByModel(graph.getCell(currentSelected)).highlight(null,{
-                                    highlighter: {
-                                        name: 'opacity'
-                                    }
-                                });
+        highlightCurrentSelected();
 
 
         if (isInDeleteMode) {
@@ -645,20 +638,7 @@ paper.on('cell:pointerdown',
     }
 );
 
-//paper.on('cell:pointerclick', function (cellView , evt, x,y) {
-//if (typeof currentSelected!='undefined') {
-//    currentSelected.unhighlight(null,{
-//                                                                     highlighter: {
-//                                                                         name: 'opacity'
-//                                                                     }
-//                                                                 } );}
-//    currentSelected = cellView;
-//    currentSelected.highlight(null,{
-//                                highlighter: {
-//                                    name: 'opacity'
-//                                }
-//                            });
-//});
+
 
 paper.on('blank:pointerclick', function () {
 
@@ -669,13 +649,7 @@ paper.on('blank:pointerclick', function () {
     clicks = [];
     isInRelationMode = false;
     setButtonColor(undefined);
-    if (existingCell(currentSelected)) {
-    paper.findViewByModel(graph.getCell(currentSelected)).unhighlight(null,{
-                                                                                                     highlighter: {
-
-                                                                                                                   name: 'opacity'
-                                                                                                     }
-                                                                                                 } );}
+    unhighlight();
     currentSelected=undefined;
     isInDeleteMode = false;
     }
@@ -832,12 +806,7 @@ function deserialize(newJson) {
         graph.fromJSON(JSON.parse(newJson));
         updateDownloadLink('downloadButton', newJson, string);
         paper.fitToContent({allowNewOrigin:'negative'});
-        if (typeof currentSelected!='undefined') {
-            var currentCell = graph.getCell(currentSelected);
-             if (typeof currentModel!='undefined') {
-                paper.findViewByModel(currentCell).highlight(null,{highlighter: {name: 'opacity'}});
-                }
-        }
+        highlightCurrentSelected();
 
 }
 
@@ -849,19 +818,63 @@ function serialize() {
         var databaseObject = {};
         databaseObject[uniqueID] = json;
         database.ref().set(databaseObject);
-        if (existingCell(currentSelected)) {
-
-                    paper.findViewByModel(graph.getCell(currentSelected)).highlight(null,{
-                                                highlighter: {
-                                                    name: 'opacity'
-                                                }
-                                            });
-                                            }
+//        highlightCurrentSelected();
 }
 
 function existingCell(id) {
-if (typeof graph.getCell(id)!='undefined') {
-return true;} else {
-return false;}
+    if (typeof graph.getCell(id)!='undefined') {
+        return true;}
+    else {
+        return false;}
+}
+
+function highlightCurrentSelected() {
+    if (alternatives_Highlighting) {
+        if (existingCell(currentSelected)) {
+        var cells = graph.getCells();
+
+        for (i=0; i<cells.length; i++) {
+        if (cells[i].id!= currentSelected){
+        paper.findViewByModel(cells[i]).highlight(null,{highlighter: {name: 'opacity'}});
+        }
+        }
+
+
+
+
+                                            }
+                                            } else {
+                                                if (existingCell(currentSelected)) {
+                                                                paper.findViewByModel(graph.getCell(currentSelected)).highlight(null,{
+                                                                                            highlighter: {
+                                                                                                name: 'opacity'
+                                                                                            }
+                                                                                        });
+                                                                                        }
+                                            }
+
+}
+
+function unhighlight() {
+
+
+if (alternatives_Highlighting) {
+    var cells = graph.getCells();
+
+            for (i=0; i<cells.length; i++) {
+            paper.findViewByModel(cells[i]).unhighlight(null,{highlighter: {name: 'opacity'} } );
+            }
+            } else {
+            if (existingCell(currentSelected)) {
+                    paper.findViewByModel(graph.getCell(currentSelected)).unhighlight(null,{
+                                                                                     highlighter: {
+                                                                                         name: 'opacity'
+                                                                                     }
+                                                                                 } );
+                  }
+            }
+
+
+
 }
 
