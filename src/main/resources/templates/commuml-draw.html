@@ -15,7 +15,10 @@
         margin-top: 60px;
         }
         #uipaper { float: right;
-         margin-top: 60px;}
+         margin-top: 60px;
+
+         height:90vh;
+         }
 
     @media print
     {
@@ -23,6 +26,84 @@
     #paper * { visibility: visible; }
     #paper { position: absolute; top: 40px; left: 30px; }
     }
+    .html-element label {
+    color: #333;
+    text-shadow: 1px 0 0 lightgray;
+    font-weight: bold;
+    }
+
+.button {
+    background-color: #4CAF50; /* Green */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    cursor: pointer;
+}
+
+.gelb {
+    background-color: #F4D03F;
+    color: black;
+    border: 2px solid #F4D03F;
+}
+
+
+
+
+
+.gelb:hover {
+    background-color: #F4D03F;
+    color: #F4D03F;
+}
+
+.orange {
+    background-color: #ff8450;
+    color: black;
+    border: 2px solid #ff8450;
+}
+
+.orange:hover {
+    background-color: #ff8450;
+    color: white;
+}
+
+
+
+.blau {
+    background-color: #00BFFF;
+    color: black;
+    border: 2px solid #00BFFF;
+}
+
+.blau:hover  {
+    background-color: #00BFFF;
+    color: white;
+}
+
+
+
+.gruen {
+    background-color: #A5DF00;
+    color: black;
+    border: 2px solid #A5DF00;
+}
+
+.gruen:hover {
+    background-color: #A5DF00;
+    color: white;
+}
+
+.not_selected {
+    background-color: white;
+}
+
+
 
 
     </style>
@@ -31,41 +112,48 @@
 <ul>
     <li>
         <div class="logo">
+            <a href="/TestManual.pdf" target="_blank">
+            <img src="/images/HelpIcon.png"  alt="Help" title="Help"/>
+            </a>
+        </div>
+    </li>
+    <li>
+        <div class="logo">
             <img src="/images/ClassIcon.png" onclick="addClassDiagram()" alt="Klasse" title="Klasse"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung" title="Vererbung"/>
+            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung" title="Vererbung" id="vererbung"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation" title="gerichtete Assoziation"/>
+            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation" title="gerichtete Assoziation" id="gerichtete_Assoziation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation" title="ungerichtete Assoziation"/>
+            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation" title="ungerichtete Assoziation" id="ungerichtete_Assoziation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation" title="Aggregation"/>
+            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation" title="Aggregation" id="aggregation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition" title="Komposition"/>
+            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition" title="Komposition" id="komposition"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DeleteIcon.png" onclick="deleteMode();" alt="Annotation" style="padding-left: 60px" title="Löschen" id="delete"/>
+            <img src="/images/DeleteIcon.png" onclick="deleteMode();" alt="Löschen" style="padding-left: 60px" title="Löschen" id="delete"/>
         </div>
     </li>
     <li>
-        <input class="textfield" type="text" id="link" name="link" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
+        <input class="textfield" type="text" id="link" name="Link" alt="Link" title="Link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
     </li>
     <li>
         <div class="logo">
@@ -82,12 +170,12 @@
     <li>
         <div class="logo">
             <a id="downloadButton">
-                <img src="/images/DownloadButton.png" alt="Herunterladen" title="Herunterladen"/>
+                <img src="/images/DownloadButton.png" onclick= "clearModes()" alt="Herunterladen" title="Herunterladen"/>
             </a>
         </div>
     </li>
     <li>
-        <label>commUML v1.0</label>
+        <label title="Entwickelt von: Carolin Dohmen, Philipp Goemann, Florian Nehmer, Lukas Reinkemeier, Alena Störmer, Falco Winkler" alt="Entwickelt von: Carolin Dohmen, Philipp Goemann, Florian Nehmer, Lukas Reinkemeier, Alena Störmer, Falco Winkler">commUML v1.0</label>
     </li>
 </ul>
 <input type="hidden" id="uniqeIdStore" value="${id}" th:value="${id}"/>
