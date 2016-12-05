@@ -184,7 +184,7 @@ var uipaper = new joint.dia.Paper({
 
 
             this.$box.find('.klasseaendern').on('click', _.bind(function () {
-                if (this.model.get('bezugsklasse')!= 'undefined') {
+                if (existingCell(this.model.get('bezugsklasse'))) {
                 graph.getCell(this.model.get('bezugsklasse')).set('name', this.model.get('klassenName'));
                 graph.getCell(this.model.get('bezugsklasse')).set('attributes', this.model.get('attribute'));
                 graph.getCell(this.model.get('bezugsklasse')).set('methods', this.model.get('methoden'));
@@ -196,7 +196,7 @@ var uipaper = new joint.dia.Paper({
             }, this));
 
            this.$box.find('.assoziationaendern').on('click', _.bind(function(){
-                if (this.model.get('bezugsAssoziation')!= 'undefined') {
+                if (existingCell(this.model.get('bezugsAssoziation'))) {
                                graph.getCell(this.model.get('bezugsAssoziation')).label(0,{attrs: {text:{text: this.model.get('assoziationName')}}});  //(0,{position: .5,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('assoziationName'),'font-size': 13,'font-family': 'Times New Roman'}}});
                                graph.getCell(this.model.get('bezugsAssoziation')).label(1,{attrs: {text:{text: this.model.get('kardinalitaetQuelle')}}}); //(1,{position: 0.1,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetQuelle'),'font-size': 13,'font-family': 'Times New Roman'}}});
                                graph.getCell(this.model.get('bezugsAssoziation')).label(2,{attrs: {text:{text: this.model.get('kardinalitaetZiel')}}});  //(2,{position: 0.9,attrs: {rect: { fill: 'white' },text: { fill: 'blue',text: this.model.get('kardinalitaetZiel'),'font-size': 13,'font-family': 'Times New Roman'}}});
@@ -586,7 +586,7 @@ var currentSelected=undefined;
 
 paper.on('cell:pointerdown',
     function (cellView, evt, x, y) {
-    if (typeof currentSelected!='undefined') {
+    if (existingCell(currentSelected)) {
         paper.findViewByModel(graph.getCell(currentSelected)).unhighlight(null,{
                                                                          highlighter: {
                                                                              name: 'opacity'
@@ -666,7 +666,7 @@ paper.on('blank:pointerclick', function () {
     clicks = [];
     isInRelationMode = false;
     setButtonColor(undefined);
-    if (typeof currentSelected!='undefined') {
+    if (existingCell(currentSelected)) {
     paper.findViewByModel(graph.getCell(currentSelected)).unhighlight(null,{
                                                                                                      highlighter: {
 
@@ -682,6 +682,7 @@ paper.on('cell:pointerup',
     function (cellView, evt, x, y) {
 
         serialize();
+
 
 }
 );
@@ -844,6 +845,19 @@ function serialize() {
         var json = JSON.stringify(graph);
         var databaseObject = {};
         databaseObject[uniqueID] = json;
+        if (existingCell(currentSelected)) {
         database.ref().set(databaseObject);
+                    paper.findViewByModel(graph.getCell(currentSelected)).highlight(null,{
+                                                highlighter: {
+                                                    name: 'opacity'
+                                                }
+                                            });
+                                            }
+}
+
+function existingCell(id) {
+if (typeof graph.getCell(id)!='undefined') {
+return true;} else {
+return false;}
 }
 
