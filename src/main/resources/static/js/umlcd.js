@@ -577,6 +577,7 @@ function addClassDiagram() {
         }
     }))
     createOffset = createOffset+10;
+    serialize();
 
 }
 
@@ -601,10 +602,12 @@ paper.on('cell:pointerdown',
 
 
         if (isInDeleteMode) {
-            cellView.model.remove();
+//            cellView.model.remove();
+            graph.getCell(cellView.model.id).remove();
             isInDeleteMode = false;
             currentSelected=undefined;
             setButtonColor(undefined);
+            //serialize();
         }
         else if (isInRelationMode) {
             if (typeof clicks[0] == 'undefined') {
@@ -845,8 +848,9 @@ function serialize() {
         var json = JSON.stringify(graph);
         var databaseObject = {};
         databaseObject[uniqueID] = json;
-        if (existingCell(currentSelected)) {
         database.ref().set(databaseObject);
+        if (existingCell(currentSelected)) {
+
                     paper.findViewByModel(graph.getCell(currentSelected)).highlight(null,{
                                                 highlighter: {
                                                     name: 'opacity'
