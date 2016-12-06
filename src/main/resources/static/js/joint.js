@@ -14545,11 +14545,18 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
         ];
 
         var offsetY = 0;
-
+        var rectWidth=0;
         _.each(rects, function(rect) {
 
             var lines = _.isArray(rect.text) ? rect.text : [rect.text];
             var rectHeight = lines.length * 20 + 20;
+
+            for (var i = 0; i<lines.length; i++) {
+            var lineLength=lines[i].length;
+            if (lineLength>rectWidth){
+            rectWidth=lineLength;
+            }
+            }
 
             attrs['.uml-class-' + rect.type + '-text'].text = lines.join('\n');
             attrs['.uml-class-' + rect.type + '-rect'].height = rectHeight;
@@ -14557,6 +14564,9 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
 
             offsetY += rectHeight;
         });
+        rectWidth = rectWidth*6.5+20;
+        this.get("size").height=offsetY/2+10;
+        this.get("size").width= rectWidth<100 ? 100 : rectWidth;
     }
 
 });
