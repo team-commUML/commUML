@@ -1,11 +1,12 @@
 var uigraph = new joint.dia.Graph();
 
 var uipaperWidth = 200;
+var uipaperHeight = 600;
 
 var uipaper = new joint.dia.Paper({
     el: $('#uipaper'),
     width: uipaperWidth,
-    height: 800,
+    height: uipaperHeight,
     gridSize: 1,
     model: uigraph
 });
@@ -53,11 +54,16 @@ var uipaper = new joint.dia.Paper({
             '<textarea id="Attribute"></textarea>',
             '<textarea id="Methoden"></textarea>',
             '<button class="klasseaendern">Aendern</button>','<br/>',
+            '<p><p/>',
             '<label id="Assoziation"></label>',
             '<textarea id="Assoziationsname"></textarea>',
             '<textarea id="KardinalitaetQuelle"></textarea>',
             '<textarea id="KardinalitaetZiel"></textarea>',
-            '<button class="assoziationaendern">Aendern</button>',
+            '<button class="assoziationaendern">Aendern</button>','<br/>',
+            '<p><p/>',
+            '<label id="Zoom">Zoom:</label>','<span id="Range">100%</span>','<br/>',
+            '<input id="Zoom" type="range" min="10" max="200" value="100" step="10" />',
+
 
             '</div>'
         ].join(''),
@@ -107,7 +113,20 @@ var uipaper = new joint.dia.Paper({
 
                 this.model.set('kardinalitaetZiel', $(evt.target).val());
 
-            }, this));
+            },this));
+            this.$box.find('#Zoom').on('change',_.bind(function (evt) {
+
+                var val = $(evt.target).val();
+                this.$box.find('span').text(val+'%');
+                paper.scale(val/100, val/100);
+                paper.fitToContent({allowNewOrigin:'negative'});
+
+            } , this));
+
+
+
+
+
 
 
             this.$box.find('.klasseaendern').on('click', _.bind(function () {
@@ -213,11 +232,17 @@ var graph = new joint.dia.Graph();
 
 var paper = new joint.dia.Paper({
     el: $('#paper'),
-    width: window.innerWidth-uipaperWidth-200,
+    width: window.innerWidth,
     height: window.innerHeight,
     gridSize: 1,
     model: graph
 });
+
+graph.on('change:position', function(cell, newPosition, opt) {
+paper.fitToContent({allowNewOrigin:'negative'});
+
+});
+
 
 var uml = joint.shapes.uml;
 
@@ -421,7 +446,7 @@ _.each(relations, function (r) {
 });
 
 
-
+paper.fitToContent({allowNewOrigin:'negative'});
 
 
 var createOffset = 0;
@@ -497,7 +522,7 @@ paper.on('cell:pointerup',
 
         serialize();
 
-    }
+}
 );
 
 database.ref().on('value', function(snapshot) {
@@ -506,6 +531,7 @@ database.ref().on('value', function(snapshot) {
         graph.fromJSON(JSON.parse(jsonFromFirebase));
 
     }
+    paper.fitToContent({allowNewOrigin:'negative'})
 });
 
 
@@ -550,8 +576,9 @@ function share() {
 }
 function upload() {
 }
-function download() {
-}
+
+
+
 
 function serialize() {
         var json = JSON.stringify(graph);
@@ -559,3 +586,4 @@ function serialize() {
         databaseObject[uniqueID] = json;
         database.ref().set(databaseObject);
         }
+

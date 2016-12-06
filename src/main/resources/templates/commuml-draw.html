@@ -6,8 +6,18 @@
     <title>CommUML v1.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <style>
-        #paper { float: left; }
-        #uipaper { float: right; }
+        #paper { float: left;
+        height:90vh;
+        width: -moz-calc(100% - 200px);
+        width: -webkit-calc(100% - 200px);
+        width: calc(100% - 200px);
+        overflow-x:scroll;
+        margin-top: 60px;
+        }
+        #uipaper { float: right;
+         margin-top: 60px;}
+
+
 
     </style>
 </head>
@@ -71,7 +81,7 @@
     </li>
 </ul>
 <input type="hidden" id="uniqeIdStore" value="${id}" th:value="${id}"/>
-<div id="paper" style="margin-top: 60px;"></div><div id="uipaper" style="margin-top: 60px;"></div>
+<div id="paper" ></div><div id="uipaper" ></div>
 
 <script src="/js/jquery.js"></script>
 <script src="/js/lodash.js"></script>
