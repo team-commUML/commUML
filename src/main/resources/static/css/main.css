@@ -1,3 +1,7 @@
+body {
+overflow: hidden;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -23,7 +27,7 @@ li img {
 
 /* Change the link color to #111 (black) on hover */
 li img:hover {
-    background-color: #111;
+    background-color: #111 !important;
 }
 
 li label {
@@ -48,3 +52,135 @@ input {
     width: 10px;
     overflow: hidden;
 }
+  #paper { float: left;
+        height:90vh;
+        width: -moz-calc(100% - 200px);
+        width: -webkit-calc(100% - 200px);
+        width: calc(100% - 200px);
+        overflow-x:scroll;
+        margin-top: 60px;
+        }
+        #uipaper { float: right;
+         margin-top: 60px;
+
+         height:90vh;
+
+         }
+/*#paper-html-elements {
+    position: relative;
+    border: 1px solid gray;
+    display: inline-block;
+    background: transparent;
+    overflow: hidden;
+
+}
+#paper-html-elements svg {
+    background: transparent;
+    overflow:hidden;
+}
+#paper-html-elements svg .link {
+    z-index: 2;
+    overflow:hidden;
+}*/
+    @media print
+    {
+    body * { visibility: hidden; }
+    #paper * { visibility: visible; }
+    #paper { position: absolute; top: 40px; left: 30px; }
+    }
+    .html-element label {
+    color: #333;
+    text-shadow: 1px 0 0 lightgray;
+    font-weight: bold;
+    }
+
+.button {
+    background-color: #333; /* Grey */
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.1s;
+    cursor: pointer;
+
+}
+
+.changer {
+box-shadow: 0 5px #999;
+padding: 6px 18px;
+}
+
+.changer:hover{
+background-color: #111
+}
+
+.changer:active {
+background-color: #111;
+box-shadow: 0 3px #666;
+transform: translateY(2px);
+}
+
+.button:focus {outline:0;}
+
+
+.gelb {
+    background-color: #F4D03F;
+    color: black;
+    border: 2px solid #F4D03F;
+}
+
+
+
+
+
+.gelb:hover {
+    background-color: #F4D03F;
+    color: #F4D03F;
+}
+
+.orange {
+    background-color: #ff8450;
+    color: black;
+    border: 2px solid #ff8450;
+}
+
+.orange:hover {
+    background-color: #ff8450;
+    color: white;
+}
+
+
+
+.blau {
+    background-color: #00BFFF;
+    color: black;
+    border: 2px solid #00BFFF;
+}
+
+.blau:hover  {
+    background-color: #00BFFF;
+    color: white;
+}
+
+
+
+.gruen {
+    background-color: #A5DF00;
+    color: black;
+    border: 2px solid #A5DF00;
+}
+
+.gruen:hover {
+    background-color: #A5DF00;
+    color: white;
+}
+
+.not_selected {
+    background-color: white;
+}
+
