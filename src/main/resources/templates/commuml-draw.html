@@ -5,24 +5,17 @@
     <link rel="stylesheet" href="/css/joint.css"/>
     <title>CommUML v1.0</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style>
-        #paper { float: left;
-        height:90vh;
-        width: -moz-calc(100% - 200px);
-        width: -webkit-calc(100% - 200px);
-        width: calc(100% - 200px);
-        overflow-x:scroll;
-        margin-top: 60px;
-        }
-        #uipaper { float: right;
-         margin-top: 60px;}
 
-
-
-    </style>
 </head>
 <body>
 <ul>
+    <li>
+        <div class="logo">
+            <a href="/TestManual.pdf" target="_blank">
+            <img src="/images/HelpIcon.png"  alt="Help" title="Help"/>
+            </a>
+        </div>
+    </li>
     <li>
         <div class="logo">
             <img src="/images/ClassIcon.png" onclick="addClassDiagram()" alt="Klasse" title="Klasse"/>
@@ -30,36 +23,36 @@
     </li>
     <li>
         <div class="logo">
-            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung" title="Vererbung"/>
+            <img src="/images/InheritanceIcon.png" onclick="addInheritance()" alt="Vererbung" title="Vererbung" id="vererbung"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation" title="gerichtete Assoziation"/>
+            <img src="/images/DirectedAssociationIcon.png" onclick="addDirectedAssociation()" alt="gerichtete Assoziation" title="gerichtete Assoziation" id="gerichtete_Assoziation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation" title="ungerichtete Assoziation"/>
+            <img src="/images/UndirectedAssociationIcon.png" onclick="addUndirectedAssociation()" alt="ungerichtete Assoziation" title="ungerichtete Assoziation" id="ungerichtete_Assoziation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation" title="Aggregation"/>
+            <img src="/images/AggregationIcon.png" onclick="addAggregation()" alt="Aggregation" title="Aggregation" id="aggregation"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition" title="Komposition"/>
+            <img src="/images/CompositionIcon.png" onclick="addComposition()" alt="Komposition" title="Komposition" id="komposition"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DeleteIcon.png" onclick="deleteMode();" alt="Annotation" style="padding-left: 60px" title="Löschen" id="delete"/>
+            <img src="/images/DeleteIcon.png" onclick="deleteMode();" alt="Löschen" title="Löschen" id="delete"/>
         </div>
     </li>
     <li>
-        <input class="textfield" type="text" id="link" name="link" title="link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
+        <input class="textfield" type="text" id="link" name="Link" alt="Link" title="Link" value="http://www.commuml.de/khgafguzguzaszugiuewz71234"/>
     </li>
     <li>
         <div class="logo">
@@ -68,16 +61,20 @@
     </li>
     <li>
         <div class="logo">
-            <img src="/images/UploadButton.png" onclick="upload()" alt="Hochladen" title="Hochladen"/>
+
+            <img id="uploadIMG" src="/images/UploadButton.png" alt="Hochladen" title="Hochladen" style="cursor:pointer"/>
+            <input id="the-file-input" name="the-file-input" type="file" style="display:none"/>
         </div>
     </li>
     <li>
         <div class="logo">
-            <img src="/images/DownloadButton.png" onclick="download()" alt="Herunterladen" title="Herunterladen"/>
+            <a id="downloadButton">
+                <img src="/images/DownloadButton.png" onclick= "clearModes()" alt="Herunterladen" title="Herunterladen"/>
+            </a>
         </div>
     </li>
     <li>
-        <label>commUML v1.0</label>
+        <label title="Entwickelt von: Carolin Dohmen, Philipp Goemann, Florian Nehmer, Lukas Reinkemeier, Alena Störmer, Falco Winkler" alt="Entwickelt von: Carolin Dohmen, Philipp Goemann, Florian Nehmer, Lukas Reinkemeier, Alena Störmer, Falco Winkler">commUML v1.0</label>
     </li>
 </ul>
 <input type="hidden" id="uniqeIdStore" value="${id}" th:value="${id}"/>
